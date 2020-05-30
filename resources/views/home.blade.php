@@ -1,23 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Dashboard</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    You are logged in!
-                </div>
-            </div>
+    <div class="content">
+        <div class="title m-b-md">
+            Список книг
         </div>
+        <table class="table">
+            <tr>
+                <th>#</th>
+                <th>Наименование</th>
+                <th>Авторы</th>
+            </tr>
+            @foreach ($books as $book)
+                <tr>
+                    <td>{{ $book->number }}</td>
+                    <td><a href="/books/{{ $book->id }}/edit" title="Редактировать">{{ $book->title }}</a></td>
+                    <td>{{ $book->authors()->get()->implode('name', ', ') }}</td>
+                </tr>
+            @endforeach
+        </table>
     </div>
-</div>
 @endsection

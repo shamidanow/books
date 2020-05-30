@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Book;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -13,7 +14,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except('welcome');
     }
 
     /**
@@ -23,6 +24,27 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $books = Book::all();
+
+        $i = 1;
+        foreach ($books as $book) {
+            $book->setAttribute('number', $i);
+            $i++;
+        }
+
+        return view('home', compact('books'));
+    }
+
+    public function welcome()
+    {
+        $books = Book::all();
+
+        $i = 1;
+        foreach ($books as $book) {
+            $book->setAttribute('number', $i);
+            $i++;
+        }
+
+        return view('welcome', compact('books'));
     }
 }
