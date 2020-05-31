@@ -2,11 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Author;
 use App\Book;
+use App\Http\Requests\BookStore;
 use Illuminate\Http\Request;
 
 class BooksController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +26,8 @@ class BooksController extends Controller
      */
     public function index()
     {
-        //
+        $books = Book::all();
+        return view('books.index', compact('books'));
     }
 
     /**
@@ -24,7 +37,8 @@ class BooksController extends Controller
      */
     public function create()
     {
-        //
+        $authors = Author::all();
+        return view('books.create',compact('authors'));
     }
 
     /**
@@ -33,9 +47,16 @@ class BooksController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BookStore $request)
     {
-        //
+        $book = Book::create($request->all());
+        $book->save();
+        if ( !is_null($request->get('selectedAuthors')) ) {
+            foreach ($request->get('selectedAuthors') as $authorId) {
+                $book->authors()->attach($authorId);
+            }
+        }
+        return redirect()->route('home');
     }
 
     /**
@@ -46,7 +67,7 @@ class BooksController extends Controller
      */
     public function show(Book $book)
     {
-        //
+        return view('books.show', compact('book'));
     }
 
     /**
@@ -57,7 +78,9 @@ class BooksController extends Controller
      */
     public function edit(Book $book)
     {
-        //
+        $authors = Author::all();
+        $bookAuthorsIds = $book->authors->pluck('id');
+        return view('books.edit',compact('book','authors','bookAuthorsIds'));
     }
 
     /**
@@ -67,9 +90,21 @@ class BooksController extends Controller
      * @param  \App\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Book $book)
+    public function update(BookStore $request, Book $book)
     {
-        //
+        $book->fill($request->all());
+        $book->save();
+        if ( !is_null($request->get('bookAuthors')) ) {
+            foreach ($request->get('bookAuthors') as $authorId) {
+                $book->authors()->detach($authorId);
+            }
+        }
+        if ( !is_null($request->get('selectedAuthors')) ) {
+            foreach ($request->get('selectedAuthors') as $authorId) {
+                $book->authors()->attach($authorId);
+            }
+        }
+        return redirect()->route('home');
     }
 
     /**
@@ -80,6 +115,7 @@ class BooksController extends Controller
      */
     public function destroy(Book $book)
     {
-        //
+        $book->delete();
+        return redirect()->route('home');
     }
 }

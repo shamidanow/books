@@ -11,7 +11,7 @@ html, body {
 
 .flex-center {
     align-items: center;
-    display: flex;
+    display: block;
     justify-content: center;
 }
 
@@ -21,16 +21,18 @@ html, body {
 
 .top-right {
     position: absolute;
-    right: 10px;
-    top: 18px;
+    right: 0px;
+    top: -20px;
 }
 
 .content {
     text-align: center;
+    margin-bottom: 15px;
 }
 
 .title {
-    font-size: 84px;
+    font-size: 36px;
+    text-align: center;
 }
 
 .links > a {
@@ -44,15 +46,62 @@ html, body {
 }
 
 .m-b-md {
-    margin-bottom: 30px;
+    margin: 30px;
+}
+
+.label {
+    margin-top: 10px;
 }
 
 td, th {
     padding: 10px;
-    border: 2px solid #000;
 }
 
 table {
     border-collapse: collapse;
-    border: 1px solid #000;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: auto!important;
+    border: 1px solid #846868!important;
+}
+
+.table_sort table {
+    border-collapse: collapse;
+}
+
+.table_sort th {
+    color: #ffebcd;
+    background: #008b8b;
+    cursor: pointer;
+}
+
+.table_sort td,
+.table_sort th {
+    text-align: center;
+    border: 2px solid #846868;
+}
+
+.table_sort tbody tr:nth-child(even) {
+    background: #e3e3e3;
+}
+
+th.sorted[data-order="1"],
+th.sorted[data-order="-1"] {
+    position: relative;
+}
+
+th.sorted[data-order="1"]::after,
+th.sorted[data-order="-1"]::after {
+    right: 8px;
+    position: absolute;
+}
+
+th.sorted[data-order="-1"]::after {
+    content: "▼"
+}
+
+th.sorted[data-order="1"]::after {
+    content: "▲"
 }

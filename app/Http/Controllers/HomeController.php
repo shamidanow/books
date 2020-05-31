@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Author;
 use App\Book;
 use Illuminate\Http\Request;
 
@@ -24,27 +25,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $books = Book::all();
-
-        $i = 1;
-        foreach ($books as $book) {
-            $book->setAttribute('number', $i);
-            $i++;
-        }
-
-        return view('home', compact('books'));
+        $books = Book::has('authors')->get();
+        $authors = Author::has('books')->get();
+        return view('home', compact('books','authors'));
     }
 
     public function welcome()
     {
-        $books = Book::all();
-
-        $i = 1;
-        foreach ($books as $book) {
-            $book->setAttribute('number', $i);
-            $i++;
-        }
-
-        return view('welcome', compact('books'));
+        $books = Book::has('authors')->get();
+        $authors = Author::has('books')->get();
+        return view('welcome', compact('books','authors'));
     }
 }

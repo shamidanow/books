@@ -14,10 +14,15 @@ class AuthorBookTableSeeder extends Seeder
         $firstAuthor = \App\Author::all()->first();
         $firstBook = \App\Book::all()->first();
         if ( !is_null($firstAuthor) && !is_null($firstBook) ) {
+            DB::statement('truncate table author_book');
             DB::table('author_book')->insert([
                 [
                     'author_id' => !is_null(\App\Author::whereName('Лев Толстой')->first()) ? \App\Author::whereName('Лев Толстой')->first()->id : $firstAuthor->id,
                     'book_id' => !is_null(\App\Book::whereTitle('Война и мир')->first()) ? \App\Book::whereTitle('Война и мир')->first()->id : $firstBook->id
+                ],
+                [
+                    'author_id' => !is_null(\App\Author::whereName('Лев Толстой')->first()) ? \App\Author::whereName('Лев Толстой')->first()->id : $firstAuthor->id,
+                    'book_id' => !is_null(\App\Book::whereTitle('Анна Каренина')->first()) ? \App\Book::whereTitle('Анна Каренина')->first()->id : $firstBook->id
                 ],
                 [
                     'author_id' => !is_null(\App\Author::whereName('Марк Твен')->first()) ? \App\Author::whereName('Марк Твен')->first()->id : $firstAuthor->id,
