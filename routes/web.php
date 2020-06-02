@@ -21,4 +21,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['middleware' => 'auth'], function() {
     Route::resource('/books', 'BooksController')->names('books');
     Route::resource('/authors', 'AuthorsController')->names('authors');
+    Route::get('/parse', 'HomeController@parse')->name('parse');
+    Route::post('/parseRequest', 'HomeController@parseRequest')->name('parseRequest');
 });

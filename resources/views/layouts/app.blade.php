@@ -23,7 +23,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
-    <div id="app">
+    <div>
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
@@ -58,10 +58,26 @@
                                 </div>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('logout') }}"
-                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    Выход
-                                </a>
+                                <div class="nav-link">
+                                    <a href="{{ route('home') }}">
+                                        Домашняя
+                                    </a>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <div class="nav-link">
+                                    <a href="{{ route('parse') }}">
+                                        Парсинг
+                                    </a>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <div class="nav-link">
+                                    <a href="{{ route('logout') }}"
+                                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        Выход
+                                    </a>
+                                </div>
 
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                     @csrf
